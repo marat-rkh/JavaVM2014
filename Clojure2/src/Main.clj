@@ -57,10 +57,16 @@
      eval-res#
      (my-or ~@rest)))))
 
-(if (my-or false false false true (println "not printed"))
- (println "true encountered")
- (println "not printed"))
+;(if (my-or false false false true (println "not printed"))
+; (println "true encountered")
+; (println "not printed"))
 
 ; task 4
-;(defmacro my-let [bindings & body]
-; `())
+(defmacro my-let [bindings & body]
+(assert (vector? bindings) "bindings must be vector")
+(assert (even? (count bindings)) "bindings vector must have even length")
+`((fn [~@(take-nth 2 bindings)] ~@body) ~@(take-nth 2 (rest bindings))))
+
+;(my-let [x 1 y "one"]
+;        (println x)
+;        (println y))
